@@ -1,1 +1,6 @@
-<p>home works!</p>
+<h1>Now Playing</h1>
+<ul>
+  <li *ngFor="let song of songs">
+    {{ song.title }} by {{ song.artist }}
+  </li>
+</ul>

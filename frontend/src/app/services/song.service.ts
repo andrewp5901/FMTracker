@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Song } from '../models/song';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
-  private baseApiUrl = 'http://localhost:5000';
+export class SongService {
+
+  private apiUrl = 'http://localhost:5000/api/songs';
 
   constructor(private http: HttpClient) { }
 
-  pingServer(): Observable<any> {
-    return this.http.get(`${this.baseApiUrl}/api/ping`);
+  getAllSongs(): Observable<Song[]> {
+    return this.http.get<Song[]>(this.apiUrl);
   }
 }
