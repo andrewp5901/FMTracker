@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserStats } from '../../models/user-stats';
 
 @Component({
   selector: 'app-analytics',
@@ -7,5 +8,14 @@ import { Component } from '@angular/core';
   styleUrl: './analytics.component.css'
 })
 export class AnalyticsComponent {
+  stats: UserStats = {
+    totalListens: 0,
+    favGenre: '',
+    topSongs: [],
+    totalListenTime: 0,
+  };
 
+  ngOnInit(): void {
+    // Fetch user stats from the backend
+  }
 }
