@@ -1,1 +1,141 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto:wght@400;500&display=swap'); /* Importing Inter and Roboto fonts */
+           
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: #0c0c0c; /* Dark theme, we can change if we like*/
+    color: #fff;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: #1f1f1f;
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .navbar a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar a:hover,
+  .navbar a.active {
+    color: #2778eb; /* A nice blue, we could also go for red*/
+  }
+  
+  /* Main Content */
+  .content {
+    flex: 1;
+    padding: 2rem;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #1f1f1f;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Now Playing List */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  ul li {
+    background: #1a1a1a;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  
+  ul li:hover {
+    background: #2a2a2a;
+  }
+  
+  /* Analytics Section */
+  h2, h3, h1 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  p {
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  
+    .content {
+      padding: 1rem;
+    }
+  }
+/* Song Card Styles */
+.song-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .song-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .song-card:hover {
+    background: #2a2a2a;
+    transform: scale(1.02);
+  }
+  
+  .song-info h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+    color: #ffffff;
+  }
+  
+  .song-info p {
+    font-size: 0.95rem;
+    color: #999;
+  }
+  
+  .song-play {
+    font-size: 1.5rem;
+    color: #1db954;
+    transition: transform 0.2s ease;
+  }
+  
+  .song-card:hover .song-play {
+    transform: scale(1.2);
+  }
+  
+
+  
