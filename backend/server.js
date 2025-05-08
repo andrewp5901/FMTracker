@@ -20,9 +20,20 @@ mongoose.connect(MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-app.get('/api/ping', (req, res) => {
-    res.json({ message: "Server is connected to Angular"})
+// Test Route
+app.get('/', (req, res) => {
+    res.send('Server connected to Angular.');
 });
+
+// Get Songs need to setup Song model and mangoDb logic
+// app.get('/api/songs', async (req, res) => {
+//     try {
+//         const songs = await Song.find();
+//         res.json(songs);
+//     } catch (err) {
+//         res.json({ error: 'Failed to fetch songs' });
+//     }
+// });
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
