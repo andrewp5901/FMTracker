@@ -10,7 +10,7 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // Initialize express
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Initalize cors
 app.use(cors());
@@ -26,7 +26,9 @@ app.get('/', (req, res) => {
 });
 
 // Get Songs need to setup Song model and mangoDb logic
-// app.get('/api/songs', async (req, res) => {
+app.get('/api/songs', async (req, res) => {
+  res.json({ message: "hey"});
+});
 //     try {
 //         const songs = await Song.find();
 //         res.json(songs);
