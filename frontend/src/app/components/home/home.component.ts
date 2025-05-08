@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SongService } from '../../services/song.service';
-import { Song } from '../../models/song';
 
 @Component({
   selector: 'app-home',
@@ -8,14 +7,38 @@ import { Song } from '../../models/song';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit {
-  songs: Song[] = [];
+export class HomeComponent implements OnInit, OnDestroy {
+  nowPlaying: string = '';
+  private startTime: number = 0;
 
   constructor(private songService: SongService) {}
 
   ngOnInit(): void {
-      this.songService.getAllSongs().subscribe((data) => {
-        this.songs = data;
-      })
+    this.startTime = Date.now();
+
+    this.songService.getNowPlaying().subscribe({
+      next: (data) => {
+        this.nowPlaying = data.nowPlaying
+          ? `${data.title} by ${data.artist}`
+          : 'Nothing is currently playing.';
+      },
+      error: () => {
+        this.nowPlaying = 'Error loading track.';
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    const endTime = Date.now();
+    const durationSeconds = Math.floor((endTime - this.startTime) / 1000); // duration in seconds
+
+    const userEmail = localStorage.getItem('userEmail');
+
+    if (userEmail && durationSeconds > 0) {
+      this.songService.updateListeningTime({ userEmail, duration: durationSeconds }).subscribe({
+        next: (res) => console.log('Listening time updated:', res),
+        error: (err) => console.error('Failed to update listening time.', err)
+      });
+    }
   }
 }

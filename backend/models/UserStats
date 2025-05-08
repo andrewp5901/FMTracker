@@ -1,0 +1,15 @@
+const mongoose = require('mongoose');
+
+const userStatsSchema = new mongoose.Schema({
+  userEmail: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  totalListeningTime: {
+    type: Number,
+    default: 0
+  }
+});
+
+module.exports = mongoose.model('UserStats', userStatsSchema);

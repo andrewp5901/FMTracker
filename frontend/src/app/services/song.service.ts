@@ -15,4 +15,19 @@ export class SongService {
   getAllSongs(): Observable<Song[]> {
     return this.http.get<Song[]>(this.apiUrl);
   }
+
+  // Fetch now playing song
+  getNowPlaying(): Observable<any> {
+    return this.http.get<any>('http://localhost:5000/api/nowplaying');
+  }
+
+  // Update listening time
+  updateListeningTime(data: { userEmail: string | null, duration: number }): Observable<any> {
+    return this.http.post<any>('http://localhost:5000/api/userstats/updateTime', data);
+  }
+
+  // Fetch user stats
+  getUserStats(userEmail: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:5000/api/userstats/${userEmail}`);
+  }
 }

@@ -15,6 +15,8 @@ const PORT = process.env.PORT || 5000;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
+const axios = require('axios');
+const UserStats = require('./models/UserStats');
 
 
 // Initalize cors
@@ -102,3 +104,64 @@ app.post('/api/login', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
   }
 });
+
+app.get('/api/nowplaying', async (req, res) => {
+    try {
+      const username = 'rj'; // using public Last.fm username for testing
+      const apiKey = process.env.LASTFM_API_KEY;
+  
+      const response = await axios.get(
+        `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json&limit=1`
+      );
+  
+      const track = response.data.recenttracks.track[0];
+      res.json({
+        artist: track.artist['#text'],
+        title: track.name,
+        nowPlaying: track['@attr']?.nowplaying === 'true'
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to fetch now playing track' });
+    }
+  });
+  
+  app.post('/api/userstats/updateTime', async (req, res) => {
+    try {
+      const { userEmail, duration } = req.body;
+  
+      let stats = await UserStats.findOne({ userEmail });
+  
+      if (!stats) {
+        stats = new UserStats({
+          userEmail,
+          totalListeningTime: duration
+        });
+      } else {
+        stats.totalListeningTime += duration;
+      }
+  
+      await stats.save();
+      res.json({ message: 'Listening time updated.', totalListeningTime: stats.totalListeningTime });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to update listening time.' });
+    }
+  });
+  
+  app.get('/api/userstats/:userEmail', async (req, res) => {
+    try {
+      const { userEmail } = req.params;
+      const stats = await UserStats.findOne({ userEmail });
+  
+      if (!stats) {
+        return res.json({ totalListeningTime: 0 });
+      }
+  
+      res.json({ totalListeningTime: stats.totalListeningTime });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to fetch user stats.' });
+    }
+  });
+  
