@@ -7,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  name: string = '';
+  email: string = '';
+  passwd: string = '';
 
+  register() {
+    // Connect with AuthService and JWT
+    console.log('Register form submitted:', this.name, this.email, this.passwd);
+  }
 }
