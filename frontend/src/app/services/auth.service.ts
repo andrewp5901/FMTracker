@@ -33,6 +33,11 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, data);
   }
 
+  deleteAccount(email: string): Observable<any> {
+    // Assuming backend expects DELETE /api/users/:email
+    return this.http.delete(`${this.apiUrl}/users/${email}`);
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');

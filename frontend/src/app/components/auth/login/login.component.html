@@ -1,4 +1,4 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="!isLoggedIn">
   <div>
     <label>Email:</label>
     <input formControlName="email" type="email">
@@ -9,6 +9,12 @@
   </div>
   <button type="submit">Login</button>
 </form>
+
+<!-- After login -->
+<div *ngIf="isLoggedIn" style="margin-top: 20px;">
+  <p>You are logged in as {{ userEmail }}.</p>
+  <button (click)="deleteAccount()">Delete My Account</button>
+</div>
 
 <!-- Feedback messages -->
 <div *ngIf="message" style="color: green; margin-top: 10px;">
