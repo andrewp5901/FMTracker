@@ -8,7 +8,7 @@ import { Song } from '../models/song';
 })
 export class SongService {
 
-  private apiUrl = 'http://localhost:5000/api/songs';
+  private apiUrl = 'http://localhost:3000/api/songs';
 
   constructor(private http: HttpClient) { }
 
