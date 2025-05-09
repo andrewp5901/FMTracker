@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SongService } from '../../services/song.service';
-import { UserService } from '../../services/user.service';
 import { LastfmService } from '../../services/lastfm.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
-  standalone: false,
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css'],
+  standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
   nowPlaying: string = '';
@@ -15,22 +14,31 @@ export class HomeComponent implements OnInit, OnDestroy {
   private userEmail: string | null = '';
 
   constructor(
-    private songService: SongService,
-    private userService: UserService,
-    private lastfmService: LastfmService
+    private lastfmService: LastfmService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.startTime = Date.now();
     this.userEmail = localStorage.getItem('userEmail');
 
-    this.songService.getNowPlaying().subscribe({
+    // Call Last.fm directly
+    this.lastfmService.getUserInfo().subscribe({
       next: (data) => {
-        this.nowPlaying = data.nowPlaying
-          ? `${data.title} by ${data.artist}`
-          : 'Nothing is currently playing.';
+        console.log('Last.fm data:', data);
+
+        const recentTracks = data?.recenttracks?.track;
+        if (recentTracks && recentTracks.length > 0) {
+          const latestTrack = recentTracks[0];
+          const songName = latestTrack.name;
+          const artist = latestTrack.artist['#text'];
+          this.nowPlaying = `${songName} by ${artist}`;
+        } else {
+          this.nowPlaying = 'No recent tracks found.';
+        }
       },
-      error: () => {
+      error: (err) => {
+        console.error('Failed to fetch now playing:', err);
         this.nowPlaying = 'Error loading track.';
       }
     });

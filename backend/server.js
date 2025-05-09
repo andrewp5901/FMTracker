@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 
 const app = express();
 
@@ -33,8 +34,20 @@ app.get('/api/songs', async (req, res) => {
   res.json({ songlist: songs });
 });
 
+// ✅ KEEPING this route
 app.get('/api/lastfm', async (req, res) => {
   res.json({ api: requestUrl });
+});
+
+// ✅ NEW: fetches real data from Last.fm and returns it
+app.get('/api/lastfm/data', async (req, res) => {
+  try {
+    const response = await axios.get(requestUrl);
+    res.json(response.data);  // sends back Last.fm JSON data
+  } catch (err) {
+    console.error('Error fetching from Last.fm:', err);
+    res.status(500).json({ message: 'Error fetching data from Last.fm' });
+  }
 });
 
 app.post('/api/register', async (req, res) => {
