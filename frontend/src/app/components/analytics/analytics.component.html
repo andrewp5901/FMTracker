@@ -1,7 +1,9 @@
-<h2>User Analytics</h2> <!-- Replace with username in future -->
+<h2>User Analytics</h2>
+
 <p>Total Listens: {{ stats.totalListens }}</p>
 <p>Favorite Genre: {{ stats.favGenre }}</p>
 <p>Total Listening Time: {{ formattedListenTime }}</p>
+
 <h3>Top Songs</h3>
 <ul>
   <li *ngFor="let song of stats.topSongs">{{ song }}</li>

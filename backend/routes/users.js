@@ -1,23 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const UserStats = require('../models/UserStats');
 const bcrypt = require('bcrypt');
 
-// REGISTER user
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
     const newUser = new User({
       name,
       email,
@@ -25,6 +22,12 @@ router.post('/register', async (req, res) => {
     });
 
     await newUser.save();
+
+    const newStats = new UserStats({
+      userEmail: email,
+      totalListeningTime: 0
+    });
+    await newStats.save();
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
@@ -39,6 +42,7 @@ router.delete('/:email', async (req, res) => {
 
   try {
     const deletedUser = await User.findOneAndDelete({ email: email });
+    await UserStats.findOneAndDelete({ userEmail: email });
 
     if (!deletedUser) {
       return res.status(404).json({ message: 'User not found.' });
@@ -48,6 +52,43 @@ router.delete('/:email', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error while deleting account.' });
+  }
+});
+
+// Get user stats by email
+router.get('/:email/stats', async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const stats = await UserStats.findOne({ userEmail: email });
+
+    if (!stats) {
+      return res.status(404).json({ message: 'No stats found for this user.' });
+    }
+
+    res.json(stats);
+  } catch (err) {
+    console.error('Error fetching stats:', err);
+    res.status(500).json({ message: 'Server error fetching stats.' });
+  }
+});
+
+router.post('/:email/listening-time', async (req, res) => {
+  const email = req.params.email;
+  const { duration } = req.body;  // duration in seconds
+
+  try {
+    let stats = await UserStats.findOne({ userEmail: email });
+    if (!stats) {
+      stats = new UserStats({ userEmail: email, totalListeningTime: duration });
+    } else {
+      stats.totalListeningTime += duration;
+    }
+    await stats.save();
+    res.json({ message: 'Listening time updated', totalListeningTime: stats.totalListeningTime });
+  } catch (err) {
+    console.error('Error updating listening time:', err);
+    res.status(500).json({ message: 'Failed to update listening time' });
   }
 });
 

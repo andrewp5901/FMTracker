@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SongService } from '../../services/song.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +11,16 @@ import { SongService } from '../../services/song.service';
 export class HomeComponent implements OnInit, OnDestroy {
   nowPlaying: string = '';
   private startTime: number = 0;
+  private userEmail: string | null = '';
 
-  constructor(private songService: SongService) {}
+  constructor(
+    private songService: SongService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.startTime = Date.now();
+    this.userEmail = localStorage.getItem('userEmail');
 
     this.songService.getNowPlaying().subscribe({
       next: (data) => {
@@ -32,10 +38,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const endTime = Date.now();
     const durationSeconds = Math.floor((endTime - this.startTime) / 1000); // duration in seconds
 
-    const userEmail = localStorage.getItem('userEmail');
-
-    if (userEmail && durationSeconds > 0) {
-      this.songService.updateListeningTime({ userEmail, duration: durationSeconds }).subscribe({
+    if (this.userEmail && durationSeconds > 0) {
+      this.userService.updateListeningTime(this.userEmail, durationSeconds).subscribe({
         next: (res) => console.log('Listening time updated:', res),
         error: (err) => console.error('Failed to update listening time.', err)
       });

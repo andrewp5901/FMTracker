@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserStats } from '../../models/user-stats';
-import { SongService } from '../../services/song.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-analytics',
@@ -16,15 +16,15 @@ export class AnalyticsComponent implements OnInit {
     totalListenTime: 0,
   };
 
-  constructor(private songService: SongService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     const userEmail = localStorage.getItem('userEmail');
 
     if (userEmail) {
-      this.songService.getUserStats(userEmail).subscribe({
+      this.userService.getUserStats(userEmail).subscribe({
         next: (data) => {
-          this.stats.totalListenTime = data.totalListeningTime;
+          this.stats.totalListenTime = data.totalListeningTime || 0;
         },
         error: (err) => {
           console.error('Failed to fetch user stats.', err);
@@ -32,13 +32,10 @@ export class AnalyticsComponent implements OnInit {
       });
     }
   }
+
   get formattedListenTime(): string {
     const minutes = Math.floor(this.stats.totalListenTime / 60);
     const seconds = this.stats.totalListenTime % 60;
     return `${minutes}m ${seconds}s`;
   }
-
-
 }
-
-
