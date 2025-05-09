@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SongService } from '../../services/song.service';
 import { Song } from '../../models/song';
+import { LastfmService } from '../../services/lastfm.service';
 
 @Component({
   selector: 'app-home',

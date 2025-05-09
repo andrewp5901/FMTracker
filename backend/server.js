@@ -12,6 +12,7 @@ const MONGO_URI = process.env.MONGO_URI;
 const app = express();
 const PORT = process.env.PORT || 3000;
 const request = "http://ws.audioscrobbler.com/2.0" + "?method=user.getrecenttracks&user=IAmNotJP&limit=10&api_key="+API_KEY+"&format=json"
+const songs = null;
 
 // Initalize cors
 app.use(cors());
@@ -28,11 +29,13 @@ app.get('/', (req, res) => {
 
 // Get Songs need to setup Song model and mangoDb logic
 app.get('/api/songs', async (req, res) => {
+res.json({ songlist: songs})
 });
 
 app.get('/api/lastfm', async (req, res) =>{
-
   res.json({ api: request});
+  var sentsongs =  req.body;
+  songs = sentsongs.tracks;
 })
 //     try {
 //         const songs = await Song.find();
