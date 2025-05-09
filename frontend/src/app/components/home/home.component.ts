@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.startTime = Date.now();
     this.userEmail = localStorage.getItem('userEmail');
 
-    this.subscription = timer(0,5000).subscribe(() =>{
+    this.subscription = timer(0,60000).subscribe(() =>{
       this.lastfmService.getUserInfo().subscribe({
         next: (data) => {
           const recentTracks = data?.recenttracks?.track;
