@@ -1,12 +1,12 @@
 /* Global Styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto:wght@400;500&display=swap'); /* Importing Inter and Roboto fonts */
-           
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   body {
     font-family: 'Inter', 'Roboto', sans-serif;
     background-color: #0c0c0c; /* Dark theme, we can change if we like*/
@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
   }
-  
+
   /* Navbar */
   .navbar {
     background-color: #1f1f1f;
@@ -25,25 +25,25 @@
     gap: 2rem;
     justify-content: center;
   }
-  
+
   .navbar a {
     color: #bbb;
     text-decoration: none;
     font-size: 1rem;
     transition: color 0.3s ease;
   }
-  
+
   .navbar a:hover,
   .navbar a.active {
     color: #2778eb; /* A nice blue, we could also go for red*/
   }
-  
+
   /* Main Content */
   .content {
     flex: 1;
     padding: 2rem;
   }
-  
+
   /* Footer */
   .footer {
     background-color: #1f1f1f;
@@ -52,13 +52,13 @@
     font-size: 0.9rem;
     color: #666;
   }
-  
+
   /* Now Playing List */
   ul {
     list-style: none;
     padding: 0;
   }
-  
+
   ul li {
     background: #1a1a1a;
     margin-bottom: 1rem;
@@ -66,28 +66,28 @@
     border-radius: 8px;
     transition: background 0.3s ease;
   }
-  
+
   ul li:hover {
     background: #2a2a2a;
   }
-  
+
   /* Analytics Section */
   h2, h3, h1 {
     margin-bottom: 1rem;
     font-weight: 600;
   }
-  
+
   p {
     margin-bottom: 0.75rem;
   }
-  
+
   /* Responsive Adjustments */
   @media (max-width: 768px) {
     .navbar {
       flex-wrap: wrap;
       gap: 1rem;
     }
-  
+
     .content {
       padding: 1rem;
     }
@@ -99,7 +99,7 @@
     gap: 1.5rem;
     margin-top: 2rem;
   }
-  
+
   .song-card {
     display: flex;
     justify-content: space-between;
@@ -110,32 +110,109 @@
     transition: background 0.3s ease, transform 0.2s ease;
     cursor: pointer;
   }
-  
+
   .song-card:hover {
     background: #2a2a2a;
     transform: scale(1.02);
   }
-  
+
   .song-info h2 {
     font-size: 1.2rem;
     margin-bottom: 0.3rem;
     color: #ffffff;
   }
-  
+
   .song-info p {
     font-size: 0.95rem;
     color: #999;
   }
-  
+
   .song-play {
     font-size: 1.5rem;
     color: #1db954;
     transition: transform 0.2s ease;
   }
-  
+
   .song-card:hover .song-play {
     transform: scale(1.2);
   }
-  
 
-  
+  .auth-form {
+    max-width: 400px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    color: #fff;
+  }
+
+  .auth-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .auth-form form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auth-form label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #bbb;
+  }
+
+  .auth-form input {
+    padding: 0.75rem;
+    margin-bottom: 1.25rem;
+    background-color: #0c0c0c;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+  }
+
+  .auth-form input:focus {
+    border-color: #2778eb;
+    outline: none;
+  }
+
+  .auth-form button {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: #2778eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .auth-form button:hover {
+    background-color: #1a5dcc;
+  }
+
+  .auth-form p {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #aaa;
+  }
+
+  .auth-form a {
+    color: #2778eb;
+    text-decoration: none;
+  }
+
+  .auth-form a:hover {
+    text-decoration: underline;
+  }
+
+
+
+

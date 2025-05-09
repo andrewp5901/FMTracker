@@ -9,7 +9,6 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-
   registerForm: FormGroup;
   message: string = '';
   error: string = '';

@@ -5,32 +5,37 @@ require('dotenv').config();
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
 
-
-// Initialize Express app
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, {
-})
-.then(() => console.log('Connected to MongoDB Atlas'))
-.catch(err => console.error('MongoDB connection error:', err));
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {})
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Import routes
 const userRoutes = require('./routes/users');
-
-// Use routes
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('FMTracker API is running');
 });
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const API_KEY = process.env.LASTFM_API_KEY;
+const requestUrl = "http://ws.audioscrobbler.com/2.0" + "?method=user.getrecenttracks&user=IAmNotJP&limit=10&api_key=" + API_KEY + "&format=json";
+
+let songs = [];  // simple in-memory storage (for now)
+
+app.get('/api/songs', async (req, res) => {
+  res.json({ songlist: songs });
+});
+
+app.get('/api/lastfm', async (req, res) => {
+  res.json({ api: requestUrl });
+});
 
 app.post('/api/register', async (req, res) => {
   const { name, email, password } = req.body;
@@ -62,22 +67,22 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Compare password using bcrypt
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Success
     res.status(200).json({ message: 'Login successful!' });
   } catch (err) {
     console.error('Error during login:', err);
     res.status(500).json({ message: 'Server error during login' });
   }
 });
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

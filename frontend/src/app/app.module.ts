@@ -1,11 +1,9 @@
 // Modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
-
 
 // Components
 import { AppComponent } from './app.component';
@@ -15,7 +13,6 @@ import { HomeComponent } from './components/home/home.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-
 
 @NgModule({
   declarations: [

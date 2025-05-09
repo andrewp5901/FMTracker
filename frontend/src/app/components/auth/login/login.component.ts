@@ -9,7 +9,6 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
   message: string = '';
   error: string = '';

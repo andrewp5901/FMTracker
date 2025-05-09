@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SongService } from '../../services/song.service';
 import { UserService } from '../../services/user.service';
+import { LastfmService } from '../../services/lastfm.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private songService: SongService,
-    private userService: UserService
+    private userService: UserService,
+    private lastfmService: LastfmService
   ) {}
 
   ngOnInit(): void {
