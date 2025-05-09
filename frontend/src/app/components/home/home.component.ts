@@ -11,7 +11,7 @@ import { timer } from 'rxjs';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   nowPlaying: string = '';
-  art: string = '/frontend/public/image.png';
+  art: string = './image.png'
   private startTime: number = 0;
   private userEmail: string | null = '';
   private currentSong: { name: string; artist: string } | null = null;

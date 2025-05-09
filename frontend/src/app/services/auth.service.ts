@@ -7,7 +7,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:5000/api'; // change this if your backend runs elsewhere
+  private apiUrl = 'http://localhost:3000/api'; // change this if your backend runs elsewhere
 
   private userEmailSubject = new BehaviorSubject<string | null>(localStorage.getItem('userEmail'));
   userEmail$ = this.userEmailSubject.asObservable();
