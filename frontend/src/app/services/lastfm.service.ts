@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LastfmService {
 
-  private apiUrl = 'http://localhost:5000';  // Make sure port matches backend
+  private apiUrl = 'http://localhost:3000';  // Make sure port matches backend
 
   constructor(private http: HttpClient) {}
 
