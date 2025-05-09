@@ -28,8 +28,12 @@ app.get('/', (req, res) => {
 
 // Get Songs need to setup Song model and mangoDb logic
 app.get('/api/songs', async (req, res) => {
-  res.json({ api: request});
 });
+
+app.get('/api/lastfm', async (req, res) =>{
+
+  res.json({ api: request});
+})
 //     try {
 //         const songs = await Song.find();
 //         res.json(songs);
