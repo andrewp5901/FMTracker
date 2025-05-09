@@ -34,12 +34,10 @@ app.get('/api/songs', async (req, res) => {
   res.json({ songlist: songs });
 });
 
-// ✅ KEEPING this route
 app.get('/api/lastfm', async (req, res) => {
   res.json({ api: requestUrl });
 });
 
-// ✅ NEW: fetches real data from Last.fm and returns it
 app.get('/api/lastfm/data', async (req, res) => {
   try {
     const response = await axios.get(requestUrl);
