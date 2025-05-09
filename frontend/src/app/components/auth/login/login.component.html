@@ -10,13 +10,12 @@
   <button type="submit">Login</button>
 </form>
 
-<!-- After login -->
-<div *ngIf="isLoggedIn" style="margin-top: 20px;">
-  <p>You are logged in as {{ userEmail }}.</p>
+<div *ngIf="isLoggedIn" class="signed-in-bar">
+  <span>You are logged in as {{ userEmail }}</span>
   <button (click)="deleteAccount()">Delete My Account</button>
 </div>
 
-<!-- Feedback messages -->
+
 <div *ngIf="message" style="color: green; margin-top: 10px;">
   {{ message }}
 </div>

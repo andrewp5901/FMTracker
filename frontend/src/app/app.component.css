@@ -1,0 +1,23 @@
+.top-signed-in-bar {
+  background-color: #222;
+  color: #ddd;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #444;
+}
+
+.top-signed-in-bar button {
+  background-color: #444;
+  color: #ddd;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.top-signed-in-bar button:hover {
+  background-color: #555;
+}

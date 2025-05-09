@@ -1,7 +1,8 @@
-<div *ngIf="userEmail" style="background: #f0f0f0; padding: 10px;">
-  Signed in as: {{ userEmail }}
+<div *ngIf="userEmail" class="top-signed-in-bar">
+  <span>Signed in as: {{ userEmail }}</span>
   <button (click)="logout()">Logout</button>
 </div>
+
 
 <app-navbar></app-navbar>
 
