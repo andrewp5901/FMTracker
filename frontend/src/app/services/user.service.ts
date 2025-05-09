@@ -20,4 +20,11 @@ export class UserService {
       duration: duration
     });
   }
+
+  likeSong(email: string, song: { name: string; artist: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${email}/likes`, {
+      songName: song.name,
+      artist: song.artist
+    });
+  }
 }

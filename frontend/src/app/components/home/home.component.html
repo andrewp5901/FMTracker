@@ -1,2 +1,13 @@
 <h1>Now Playing</h1>
 <p>{{ nowPlaying }}</p>
+
+<button (click)="likeSong()" *ngIf="nowPlaying">
+  Like This Song
+</button>
+
+<p *ngIf="likeMessage" style="margin-top: 10px; color: green;">
+  {{ likeMessage }}
+</p>
+<p *ngIf="likeError" style="margin-top: 10px; color: red;">
+  {{ likeError }}
+</p>

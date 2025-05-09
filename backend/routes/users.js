@@ -25,7 +25,8 @@ router.post('/register', async (req, res) => {
 
     const newStats = new UserStats({
       userEmail: email,
-      totalListeningTime: 0
+      totalListeningTime: 0,
+      likedSongs: []
     });
     await newStats.save();
 
@@ -75,7 +76,7 @@ router.get('/:email/stats', async (req, res) => {
 
 router.post('/:email/listening-time', async (req, res) => {
   const email = req.params.email;
-  const { duration } = req.body;  // duration in seconds
+  const { duration } = req.body;
 
   try {
     let stats = await UserStats.findOne({ userEmail: email });
@@ -89,6 +90,36 @@ router.post('/:email/listening-time', async (req, res) => {
   } catch (err) {
     console.error('Error updating listening time:', err);
     res.status(500).json({ message: 'Failed to update listening time' });
+  }
+});
+
+// NEW: Like a song
+router.post('/:email/likes', async (req, res) => {
+  const email = req.params.email;
+  const { songName, artist } = req.body;
+
+  try {
+    let stats = await UserStats.findOne({ userEmail: email });
+    if (!stats) {
+      stats = new UserStats({ userEmail: email, totalListeningTime: 0, likedSongs: [] });
+    }
+
+    // Check if already liked
+    const alreadyLiked = stats.likedSongs?.some(
+      (s) => s.songName === songName && s.artist === artist
+    );
+
+    if (!alreadyLiked) {
+      stats.likedSongs = stats.likedSongs || [];
+      stats.likedSongs.push({ songName, artist });
+      await stats.save();
+      res.json({ message: 'Song liked successfully', likedSongs: stats.likedSongs });
+    } else {
+      res.status(200).json({ message: 'Song already liked', likedSongs: stats.likedSongs });
+    }
+  } catch (err) {
+    console.error('Error liking song:', err);
+    res.status(500).json({ message: 'Failed to like song' });
   }
 });
 

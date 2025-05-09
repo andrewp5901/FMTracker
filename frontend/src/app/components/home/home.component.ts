@@ -12,6 +12,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   nowPlaying: string = '';
   private startTime: number = 0;
   private userEmail: string | null = '';
+  private currentSong: { name: string; artist: string } | null = null;
+  likeMessage: string = '';
+  likeError: string = '';
 
   constructor(
     private lastfmService: LastfmService,
@@ -22,17 +25,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.startTime = Date.now();
     this.userEmail = localStorage.getItem('userEmail');
 
-    // Call Last.fm directly
     this.lastfmService.getUserInfo().subscribe({
       next: (data) => {
-        console.log('Last.fm data:', data);
-
         const recentTracks = data?.recenttracks?.track;
         if (recentTracks && recentTracks.length > 0) {
           const latestTrack = recentTracks[0];
           const songName = latestTrack.name;
           const artist = latestTrack.artist['#text'];
           this.nowPlaying = `${songName} by ${artist}`;
+          this.currentSong = { name: songName, artist: artist };
         } else {
           this.nowPlaying = 'No recent tracks found.';
         }
@@ -44,9 +45,29 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  likeSong(): void {
+    if (!this.userEmail || !this.currentSong) {
+      this.likeError = 'No user logged in or no song to like.';
+      return;
+    }
+
+    this.userService.likeSong(this.userEmail, this.currentSong).subscribe({
+      next: (res) => {
+        this.likeMessage = 'Song liked successfully!';
+        this.likeError = '';
+      },
+      error: (err) => {
+        console.error('Error liking song:', err);
+        this.likeMessage = '';
+        this.likeError =
+          err.error?.message || 'Failed to like song. It may already be liked.';
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     const endTime = Date.now();
-    const durationSeconds = Math.floor((endTime - this.startTime) / 1000); // duration in seconds
+    const durationSeconds = Math.floor((endTime - this.startTime) / 1000);
 
     if (this.userEmail && durationSeconds > 0) {
       this.userService.updateListeningTime(this.userEmail, durationSeconds).subscribe({

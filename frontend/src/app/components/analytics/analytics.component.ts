@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserStats } from '../../models/user-stats';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -9,12 +8,8 @@ import { UserService } from '../../services/user.service';
   styleUrl: './analytics.component.css'
 })
 export class AnalyticsComponent implements OnInit {
-  stats: UserStats = {
-    totalListens: 0,
-    favGenre: '',
-    topSongs: [],
-    totalListenTime: 0,
-  };
+  totalListeningTime: number = 0;
+  likedSongs: { songName: string; artist: string }[] = [];
 
   constructor(private userService: UserService) {}
 
@@ -24,7 +19,8 @@ export class AnalyticsComponent implements OnInit {
     if (userEmail) {
       this.userService.getUserStats(userEmail).subscribe({
         next: (data) => {
-          this.stats.totalListenTime = data.totalListeningTime || 0;
+          this.totalListeningTime = data.totalListeningTime || 0;
+          this.likedSongs = data.likedSongs || [];
         },
         error: (err) => {
           console.error('Failed to fetch user stats.', err);
@@ -34,8 +30,8 @@ export class AnalyticsComponent implements OnInit {
   }
 
   get formattedListenTime(): string {
-    const minutes = Math.floor(this.stats.totalListenTime / 60);
-    const seconds = this.stats.totalListenTime % 60;
+    const minutes = Math.floor(this.totalListeningTime / 60);
+    const seconds = this.totalListeningTime % 60;
     return `${minutes}m ${seconds}s`;
   }
 }

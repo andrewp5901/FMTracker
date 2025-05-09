@@ -9,7 +9,13 @@ const userStatsSchema = new mongoose.Schema({
   totalListeningTime: {
     type: Number,
     default: 0
-  }
+  },
+  likedSongs: [
+    {
+      songName: String,
+      artist: String
+    }
+  ]
 });
 
 module.exports = mongoose.model('UserStats', userStatsSchema);
